@@ -12,13 +12,10 @@
 
 package org.mongeez;
 
-import org.mongeez.commands.ChangeSet;
-import org.mongeez.commands.Script;
-import org.mongeez.dao.MongeezDao;
-
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
-
+import org.mongeez.commands.ChangeSet;
+import org.mongeez.dao.MongeezDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,11 +60,10 @@ public class ChangeSetExecutor {
 
     private void execute(ChangeSet changeSet) {
         try {
-            for (Script command : changeSet.getCommands()) {
-                command.run(dao);
-            }
+            changeSet.getCommands().stream().forEach(c->c.run(dao));
         } catch (RuntimeException e) {
             if (changeSet.isFailOnError()) {
+                logger.error("ChangeSet " + changeSet.getChangeId() + " has failed!!!", e);
                 throw e;
             } else {
                 logger.warn("ChangeSet " + changeSet.getChangeId() + " has failed, but failOnError is set to false", e.getMessage());

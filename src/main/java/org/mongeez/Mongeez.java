@@ -55,7 +55,7 @@ public class Mongeez {
 
     private List<ChangeSet> getChangeSets() {
         List<Resource> files = changeSetFileProvider.getChangeSetFiles();
-        List<ChangeSet> changeSets = new ArrayList<ChangeSet>();
+        List<ChangeSet> changeSets = new ArrayList<>();
 
         ChangeSetReaderFactory readerFactory = ChangeSetReaderFactory.getInstance();
         for (Resource file : files) {
