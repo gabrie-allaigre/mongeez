@@ -14,6 +14,7 @@ package org.mongeez;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoDatabase;
 
 import org.testng.annotations.Test;
@@ -24,8 +25,9 @@ public class MongeezMongoClientTest extends AbstractMongeezTest {
     private MongoDatabase mongoDatabase;
 
     @Override
-    protected Mongo prepareDatabase(String databaseName) {
-        MongoClient mongoClient = new MongoClient();
+    protected Mongo prepareDatabase(String uri, String databaseName) {
+        MongoClientURI mongoClientURI = new MongoClientURI(uri);
+        MongoClient mongoClient = new MongoClient(mongoClientURI);
         mongoDatabase = mongoClient.getDatabase(databaseName);
         mongoDatabase.drop();
         return mongoClient;

@@ -12,28 +12,30 @@
 
 package org.mongeez;
 
-import static org.testng.Assert.assertEquals;
-
+import com.mongodb.Mongo;
 import org.mongeez.validation.ValidationException;
 import org.springframework.core.io.ClassPathResource;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.mongodb.Mongo;
+import static org.testng.Assert.assertEquals;
 
 @Test
 public abstract class AbstractMongeezTest {
 
     private static final String DB_NAME = "test_mongeez";
 
-    protected abstract Mongo prepareDatabase(String databaseName);
+    private static final String URI = "mongodb://localhost:27018/"+DB_NAME;
+
+    protected abstract Mongo prepareDatabase(String uri, String databaseName);
+
     protected abstract long collectionCount(String collection);
 
     private Mongo mongo;
 
     @BeforeMethod
     protected void setUp() throws Exception {
-        mongo = prepareDatabase(DB_NAME);
+        mongo = prepareDatabase(URI, DB_NAME);
     }
 
     private Mongeez create(String path) {
