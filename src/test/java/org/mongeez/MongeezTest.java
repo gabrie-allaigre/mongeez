@@ -9,35 +9,34 @@
  * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and limitations under the License.
  */
-
 package org.mongeez;
 
-import static org.testng.Assert.assertEquals;
-
 import com.mongodb.DB;
-import com.mongodb.DBCursor;
 import com.mongodb.Mongo;
+<<<<<<< HEAD
 import com.mongodb.MongoClient;
 
 import org.mongeez.validation.ValidationException;
 import org.springframework.core.io.ClassPathResource;
 import org.testng.annotations.BeforeMethod;
+=======
+>>>>>>> 202fd5662ce899d3e3ca503e6627cfbc0da0e6cb
 import org.testng.annotations.Test;
 
 @Test
-public class MongeezTest {
-    private String dbName = "test_mongeez";
-    private Mongo mongo;
+public class MongeezTest extends AbstractMongeezTest {
+
     private DB db;
 
-    @BeforeMethod
-    protected void setUp() throws Exception {
-        mongo = new Mongo();
-        db = mongo.getDB(dbName);
-
+    @Override
+    protected Mongo prepareDatabase(String databaseName) {
+        Mongo mongo = new Mongo();
+        db = mongo.getDB(databaseName);
         db.dropDatabase();
+        return mongo;
     }
 
+<<<<<<< HEAD
     private Mongeez create(String path) {
         Mongeez mongeez = new Mongeez();
         mongeez.setFile(new ClassPathResource(path));
@@ -129,52 +128,11 @@ public class MongeezTest {
         Mongeez mongeez = create("mongeez_no_changefiles_declared.xml");
         mongeez.process();
         assertEquals(db.getCollection("mongeez").count(), 1);
+=======
+    @Override
+    protected long collectionCount(String collection) {
+        return db.getCollection(collection).count();
+>>>>>>> 202fd5662ce899d3e3ca503e6627cfbc0da0e6cb
     }
 
-    @Test(groups = "dao")
-    public void testChangesWContextContextNotSet() throws Exception {
-        assertEquals(db.getCollection("mongeez").count(), 0);
-
-        Mongeez mongeez = create("mongeez_contexts.xml");
-        mongeez.process();
-        assertEquals(db.getCollection("mongeez").count(), 2);
-        assertEquals(db.getCollection("car").count(), 2);
-        assertEquals(db.getCollection("user").count(), 0);
-        assertEquals(db.getCollection("organization").count(), 0);
-        assertEquals(db.getCollection("house").count(), 0);
-    }
-
-    @Test(groups = "dao")
-    public void testChangesWContextContextSetToUsers() throws Exception {
-        assertEquals(db.getCollection("mongeez").count(), 0);
-
-        Mongeez mongeez = create("mongeez_contexts.xml");
-        mongeez.setContext("users");
-        mongeez.process();
-        assertEquals(db.getCollection("mongeez").count(), 4);
-        assertEquals(db.getCollection("car").count(), 2);
-        assertEquals(db.getCollection("user").count(), 2);
-        assertEquals(db.getCollection("organization").count(), 0);
-        assertEquals(db.getCollection("house").count(), 2);
-    }
-
-    @Test(groups = "dao")
-    public void testChangesWContextContextSetToOrganizations() throws Exception {
-        assertEquals(db.getCollection("mongeez").count(), 0);
-
-        Mongeez mongeez = create("mongeez_contexts.xml");
-        mongeez.setContext("organizations");
-        mongeez.process();
-        assertEquals(db.getCollection("mongeez").count(), 4);
-        assertEquals(db.getCollection("car").count(), 2);
-        assertEquals(db.getCollection("user").count(), 0);
-        assertEquals(db.getCollection("organization").count(), 2);
-        assertEquals(db.getCollection("house").count(), 2);
-    }
-
-    @Test(groups = "dao", expectedExceptions = ValidationException.class)
-    public void testFailDuplicateIds() throws Exception {
-        Mongeez mongeez = create("mongeez_fail_on_duplicate_changeset_ids.xml");
-        mongeez.process();
-    }
 }
