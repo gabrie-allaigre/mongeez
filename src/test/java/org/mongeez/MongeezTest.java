@@ -13,14 +13,6 @@ package org.mongeez;
 
 import com.mongodb.DB;
 import com.mongodb.Mongo;
-<<<<<<< HEAD
-import com.mongodb.MongoClient;
-
-import org.mongeez.validation.ValidationException;
-import org.springframework.core.io.ClassPathResource;
-import org.testng.annotations.BeforeMethod;
-=======
->>>>>>> 202fd5662ce899d3e3ca503e6627cfbc0da0e6cb
 import org.testng.annotations.Test;
 
 @Test
@@ -36,103 +28,9 @@ public class MongeezTest extends AbstractMongeezTest {
         return mongo;
     }
 
-<<<<<<< HEAD
-    private Mongeez create(String path) {
-        Mongeez mongeez = new Mongeez();
-        mongeez.setFile(new ClassPathResource(path));
-        mongeez.setMongo(mongo);
-        mongeez.setDbName(dbName);
-        return mongeez;
-    }
-
-    private Mongeez createWithMongoClient(String path) {
-        MongoClient mongoClient = new MongoClient();
-        db = mongoClient.getDB(dbName);
-        db.dropDatabase();
-
-        Mongeez mongeez = new Mongeez();
-        mongeez.setFile(new ClassPathResource(path));
-        mongeez.setMongoClient(mongoClient);
-        mongeez.setDbName(dbName);
-        return mongeez;
-    }
-
-    @Test(groups = "dao")
-    public void testMongeez() throws Exception {
-        Mongeez mongeez = create("mongeez.xml");
-
-        mongeez.process();
-
-        assertEquals(db.getCollection("mongeez").count(), 5);
-
-        assertEquals(db.getCollection("organization").count(), 2);
-        assertEquals(db.getCollection("user").count(), 2);
-    }
-
-    @Test(groups = "dao")
-    public void testMongeezWithMongoClient() throws Exception {
-        Mongeez mongeez = createWithMongoClient("mongeez.xml");
-
-        mongeez.process();
-
-        assertEquals(db.getCollection("mongeez").count(), 5);
-
-        assertEquals(db.getCollection("organization").count(), 2);
-        assertEquals(db.getCollection("user").count(), 2);
-    }
-
-    @Test(groups = "dao")
-    public void testRunTwice() throws Exception {
-        testMongeez();
-        testMongeez();
-    }
-
-    @Test(groups = "dao")
-    public void testFailOnError_False() throws Exception {
-        assertEquals(db.getCollection("mongeez").count(), 0);
-
-        Mongeez mongeez = create("mongeez_fail.xml");
-        mongeez.process();
-
-        assertEquals(db.getCollection("mongeez").count(), 2);
-    }
-
-    @Test(groups = "dao", expectedExceptions = com.mongodb.MongoCommandException.class)
-    public void testFailOnError_True() throws Exception {
-        Mongeez mongeez = create("mongeez_fail_fail.xml");
-        mongeez.process();
-    }
-
-    @Test(groups = "dao")
-    public void testNoFiles() throws Exception {
-        Mongeez mongeez = create("mongeez_empty.xml");
-        mongeez.process();
-
-        assertEquals(db.getCollection("mongeez").count(), 1);
-    }
-
-    @Test(groups = "dao")
-    public void testNoFailureOnEmptyChangeLog() throws Exception {
-        assertEquals(db.getCollection("mongeez").count(), 0);
-
-        Mongeez mongeez = create("mongeez_empty_changelog.xml");
-        mongeez.process();
-
-        assertEquals(db.getCollection("mongeez").count(), 1);
-    }
-
-    @Test(groups = "dao")
-    public void testNoFailureOnNoChangeFilesBlock() throws Exception {
-        assertEquals(db.getCollection("mongeez").count(), 0);
-
-        Mongeez mongeez = create("mongeez_no_changefiles_declared.xml");
-        mongeez.process();
-        assertEquals(db.getCollection("mongeez").count(), 1);
-=======
     @Override
     protected long collectionCount(String collection) {
         return db.getCollection(collection).count();
->>>>>>> 202fd5662ce899d3e3ca503e6627cfbc0da0e6cb
     }
 
 }
