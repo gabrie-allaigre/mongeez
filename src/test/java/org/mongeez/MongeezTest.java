@@ -13,7 +13,6 @@ package org.mongeez;
 
 import com.mongodb.DB;
 import com.mongodb.Mongo;
-
 import org.testng.annotations.Test;
 
 @Test
