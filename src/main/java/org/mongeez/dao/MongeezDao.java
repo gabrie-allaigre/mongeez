@@ -12,19 +12,22 @@
 
 package org.mongeez.dao;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
 import com.mongodb.*;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.mongeez.MongoAuth;
 import org.mongeez.commands.ChangeSet;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 import static com.mongodb.AuthenticationMechanism.*;
+import static org.mongeez.MongeezConst.SYS_COLLECTION_NAME;
 
 public class MongeezDao {
+
     private DB db;
+
     private List<ChangeSetAttribute> changeSetAttributes;
 
     public MongeezDao(MongoClient mongoClient, String databaseName) {
@@ -116,7 +119,7 @@ public class MongeezDao {
         }
         Object supportResourcePath = configRecord.get("supportResourcePath");
 
-        changeSetAttributes = new ArrayList<ChangeSetAttribute>();
+        changeSetAttributes = new ArrayList<>();
         changeSetAttributes.add(ChangeSetAttribute.file);
         changeSetAttributes.add(ChangeSetAttribute.changeId);
         changeSetAttributes.add(ChangeSetAttribute.author);
@@ -157,7 +160,7 @@ public class MongeezDao {
     }
 
     private DBCollection getMongeezCollection() {
-        return db.getCollection("mongeez");
+        return db.getCollection(SYS_COLLECTION_NAME);
     }
 
     public void runScript(String code) {

@@ -18,14 +18,14 @@ import org.springframework.core.io.ClassPathResource;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import static org.mongeez.MongeezConst.SYS_COLLECTION_NAME;
+import static org.mongeez.MongeezConst.TEST_DB_NAME;
 import static org.testng.Assert.assertEquals;
 
 @Test
 public abstract class AbstractMongeezTest {
 
-    private static final String DB_NAME = "test_mongeez";
-
-    private static final String URI = "mongodb://localhost:27018/"+DB_NAME;
+    private static final String URI = "mongodb://localhost:27018/"+TEST_DB_NAME;
 
     protected abstract Mongo prepareDatabase(String uri, String databaseName);
 
@@ -35,14 +35,14 @@ public abstract class AbstractMongeezTest {
 
     @BeforeMethod
     protected void setUp() throws Exception {
-        mongo = prepareDatabase(URI, DB_NAME);
+        mongo = prepareDatabase(URI, TEST_DB_NAME);
     }
 
     private Mongeez create(String path) {
         Mongeez mongeez = new Mongeez();
         mongeez.setFile(new ClassPathResource(path));
         mongeez.setMongo(mongo);
-        mongeez.setDbName(DB_NAME);
+        mongeez.setDbName(TEST_DB_NAME);
         return mongeez;
     }
 
@@ -52,7 +52,7 @@ public abstract class AbstractMongeezTest {
 
         mongeez.process();
 
-        assertEquals(collectionCount("mongeez"), 5);
+        assertEquals(collectionCount(SYS_COLLECTION_NAME), 5);
 
         assertEquals(collectionCount("organization"), 2);
         assertEquals(collectionCount("user"), 2);
@@ -66,12 +66,12 @@ public abstract class AbstractMongeezTest {
 
     @Test(groups = "dao")
     public void testFailOnError_False() throws Exception {
-        assertEquals(collectionCount("mongeez"), 0);
+        assertEquals(collectionCount(SYS_COLLECTION_NAME), 0);
 
         Mongeez mongeez = create("mongeez_fail.xml");
         mongeez.process();
 
-        assertEquals(collectionCount("mongeez"), 2);
+        assertEquals(collectionCount(SYS_COLLECTION_NAME), 2);
     }
 
     @Test(groups = "dao", expectedExceptions = com.mongodb.MongoCommandException.class)
@@ -85,35 +85,35 @@ public abstract class AbstractMongeezTest {
         Mongeez mongeez = create("mongeez_empty.xml");
         mongeez.process();
 
-        assertEquals(collectionCount("mongeez"), 1);
+        assertEquals(collectionCount(SYS_COLLECTION_NAME), 1);
     }
 
     @Test(groups = "dao")
     public void testNoFailureOnEmptyChangeLog() throws Exception {
-        assertEquals(collectionCount("mongeez"), 0);
+        assertEquals(collectionCount(SYS_COLLECTION_NAME), 0);
 
         Mongeez mongeez = create("mongeez_empty_changelog.xml");
         mongeez.process();
 
-        assertEquals(collectionCount("mongeez"), 1);
+        assertEquals(collectionCount(SYS_COLLECTION_NAME), 1);
     }
 
     @Test(groups = "dao")
     public void testNoFailureOnNoChangeFilesBlock() throws Exception {
-        assertEquals(collectionCount("mongeez"), 0);
+        assertEquals(collectionCount(SYS_COLLECTION_NAME), 0);
 
         Mongeez mongeez = create("mongeez_no_changefiles_declared.xml");
         mongeez.process();
-        assertEquals(collectionCount("mongeez"), 1);
+        assertEquals(collectionCount(SYS_COLLECTION_NAME), 1);
     }
 
     @Test(groups = "dao")
     public void testChangesWContextContextNotSet() throws Exception {
-        assertEquals(collectionCount("mongeez"), 0);
+        assertEquals(collectionCount(SYS_COLLECTION_NAME), 0);
 
         Mongeez mongeez = create("mongeez_contexts.xml");
         mongeez.process();
-        assertEquals(collectionCount("mongeez"), 2);
+        assertEquals(collectionCount(SYS_COLLECTION_NAME), 2);
         assertEquals(collectionCount("car"), 2);
         assertEquals(collectionCount("user"), 0);
         assertEquals(collectionCount("organization"), 0);
@@ -122,12 +122,12 @@ public abstract class AbstractMongeezTest {
 
     @Test(groups = "dao")
     public void testChangesWContextContextSetToUsers() throws Exception {
-        assertEquals(collectionCount("mongeez"), 0);
+        assertEquals(collectionCount(SYS_COLLECTION_NAME), 0);
 
         Mongeez mongeez = create("mongeez_contexts.xml");
         mongeez.setContext("users");
         mongeez.process();
-        assertEquals(collectionCount("mongeez"), 4);
+        assertEquals(collectionCount(SYS_COLLECTION_NAME), 4);
         assertEquals(collectionCount("car"), 2);
         assertEquals(collectionCount("user"), 2);
         assertEquals(collectionCount("organization"), 0);
@@ -136,12 +136,12 @@ public abstract class AbstractMongeezTest {
 
     @Test(groups = "dao")
     public void testChangesWContextContextSetToOrganizations() throws Exception {
-        assertEquals(collectionCount("mongeez"), 0);
+        assertEquals(collectionCount(SYS_COLLECTION_NAME), 0);
 
         Mongeez mongeez = create("mongeez_contexts.xml");
         mongeez.setContext("organizations");
         mongeez.process();
-        assertEquals(collectionCount("mongeez"), 4);
+        assertEquals(collectionCount(SYS_COLLECTION_NAME), 4);
         assertEquals(collectionCount("car"), 2);
         assertEquals(collectionCount("user"), 0);
         assertEquals(collectionCount("organization"), 2);
