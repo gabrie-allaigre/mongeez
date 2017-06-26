@@ -13,6 +13,7 @@ package org.mongeez;
 
 import com.mongodb.DB;
 import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
 import org.testng.annotations.Test;
 
 @Test
@@ -22,7 +23,7 @@ public class MongeezTest extends AbstractMongeezTest {
 
     @Override
     protected Mongo prepareDatabase(String databaseName) {
-        Mongo mongo = new Mongo();
+        MongoClient mongo = new MongoClient();
         db = mongo.getDB(databaseName);
         db.dropDatabase();
         return mongo;
