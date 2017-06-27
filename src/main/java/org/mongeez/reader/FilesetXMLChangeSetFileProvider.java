@@ -15,6 +15,7 @@ import org.springframework.core.io.Resource;
 import java.util.List;
 
 public class FilesetXMLChangeSetFileProvider implements ChangeSetFileProvider {
+
     private Resource file;
 
     public FilesetXMLChangeSetFileProvider(Resource file) {

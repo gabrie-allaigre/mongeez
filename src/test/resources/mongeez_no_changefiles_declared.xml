@@ -1,5 +1,7 @@
 <!--
 A mongeez setup with valid xml that does not contain changeFiles root element. Not normal, but causes an NPE
 -->
-<changeFiles>
-</changeFiles>
+<groupFiles>
+    <changeFiles>
+    </changeFiles>
+</groupFiles>

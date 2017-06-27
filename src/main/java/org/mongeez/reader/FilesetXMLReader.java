@@ -12,48 +12,59 @@
 
 package org.mongeez.reader;
 
+import org.apache.commons.digester3.Digester;
 import org.mongeez.commands.ChangeFile;
 import org.mongeez.commands.ChangeFileSet;
+import org.mongeez.commands.GroupFile;
 import org.mongeez.validation.ValidationException;
-import org.apache.commons.digester3.Digester;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 
-import static java.lang.String.format;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.String.format;
 
 public class FilesetXMLReader {
 
     private static final Logger logger = LoggerFactory.getLogger(FilesetXMLReader.class);
 
     public List<Resource> getFiles(Resource file) {
-        List<Resource> files = new ArrayList<Resource>();
-
+        List<Resource> files = new ArrayList<>();
         try {
             Digester digester = new Digester();
-
             digester.setValidating(false);
 
-            digester.addObjectCreate("changeFiles", ChangeFileSet.class);
-            digester.addObjectCreate("changeFiles/file", ChangeFile.class);
-            digester.addSetProperties("changeFiles/file");
-            digester.addSetNext("changeFiles/file", "add");
+            digester.addObjectCreate("groupFiles", GroupFile.class);
+            digester.addSetProperties("groupFiles");
+
+            digester.addObjectCreate("groupFiles/changeFiles", ChangeFileSet.class);
+            digester.addSetProperties("groupFiles/changeFiles");
+            digester.addSetNext("groupFiles/changeFiles", "add");
+
+            digester.addObjectCreate("groupFiles/changeFiles/file", ChangeFile.class);
+            digester.addSetProperties("groupFiles/changeFiles/file");
+            digester.addSetNext("groupFiles/changeFiles/file", "add");
+
 
             logger.info("Parsing XML Fileset file {}", file.getFilename());
-            ChangeFileSet changeFileSet = (ChangeFileSet) digester.parse(file.getInputStream());
-            if (changeFileSet != null) {
-                logger.info("Num of changefiles found " + changeFileSet.getChangeFiles().size());
-                for (ChangeFile changeFile : changeFileSet.getChangeFiles()) {
-                    files.add(file.createRelative(changeFile.getPath()));
+            GroupFile groupFile = digester.parse(file.getInputStream());
+            if (groupFile != null){
+                List<ChangeFileSet> groupFiles = groupFile.getGroupFiles();
+                logger.info("Num of groupFiles found " + groupFiles.size());
+                for (ChangeFileSet changeFileSet : groupFiles) {
+                    if (changeFileSet != null) {
+                        logger.info("Num of changefiles found " + changeFileSet.getChangeFiles().size());
+                        for (ChangeFile changeFile : changeFileSet.getChangeFiles()) {
+                            files.add(file.createRelative(changeFile.getPath()));
+                        }
+                    }
                 }
-            }
-            else {
-                String message = format("The file {} doesn't seem to contain a changeFiles declaration. Are you "
-                        + "using the correct file to initialize Mongeez?", file.getFilename());
+            } else {
+                String message = format("The file {} doesn't seem to contain a groupFiles declaration. Are you "
+                        + "using the correct file to initialize Mongeez ?", file.getFilename());
                 throw new ValidationException(message);
             }
         } catch (IOException e) {

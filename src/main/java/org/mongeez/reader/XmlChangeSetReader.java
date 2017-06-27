@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class XmlChangeSetReader implements ChangeSetReader {
+
     private static final Logger logger = LoggerFactory.getLogger(XmlChangeSetReader.class);
 
     private Digester digester;
@@ -52,11 +53,11 @@ public class XmlChangeSetReader implements ChangeSetReader {
 
     @Override
     public List<ChangeSet> getChangeSets(Resource file) {
-        List<ChangeSet> changeSets = new ArrayList<ChangeSet>();
+        List<ChangeSet> changeSets = new ArrayList<>();
 
         try {
             logger.info("Parsing XML Change Set File {}", file.getFilename());
-            ChangeSetList changeFileSet = (ChangeSetList) digester.parse(file.getInputStream());
+            ChangeSetList changeFileSet = digester.parse(file.getInputStream());
             if (changeFileSet == null) {
                 logger.warn("Ignoring change file {}, the parser returned null. Please check your formatting.", file.getFilename());
             }

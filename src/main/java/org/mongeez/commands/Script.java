@@ -18,6 +18,7 @@ import org.mongeez.dao.MongeezDao;
  * @since 5/3/11
  */
 public class Script {
+
     private String body;
 
     public String getBody() {

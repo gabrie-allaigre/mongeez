@@ -16,11 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChangeSetList {
+
     List<ChangeSet> list = null;
 
     public List<ChangeSet> getList() {
         if (list == null) {
-            list = new ArrayList<ChangeSet>();
+            list = new ArrayList<>();
         }
         return list;
     }

@@ -16,7 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChangeFileSet {
-    private List<ChangeFile> changeFiles = new ArrayList<ChangeFile>();
+
+    private List<ChangeFile> changeFiles = new ArrayList<>();
 
     public void add(ChangeFile changeFile) {
         this.changeFiles.add(changeFile);

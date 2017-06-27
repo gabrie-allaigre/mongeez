@@ -16,12 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChangeSetReaderFactory {
+
     private static ChangeSetReaderFactory instance;
 
     private List<ChangeSetReader> readers;
 
     private ChangeSetReaderFactory() {
-        readers = new ArrayList<ChangeSetReader>();
+        readers = new ArrayList<>();
         readers.add(new FormattedJavascriptChangeSetReader());
         readers.add(new XmlChangeSetReader());
     }

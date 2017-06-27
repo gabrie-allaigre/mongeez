@@ -26,7 +26,7 @@ public class ChangeSet {
     private boolean failOnError = true;
     private boolean runAlways;
 
-    private List<Script> commands = new ArrayList<Script>();
+    private List<Script> commands = new ArrayList<>();
 
     public String getChangeId() {
         return changeId;

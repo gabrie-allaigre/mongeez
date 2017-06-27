@@ -1,3 +1,5 @@
-<changeFiles>
-    <file path="changeset_with_contexts.xml"/>
-</changeFiles>
+<groupFiles>
+    <changeFiles>
+        <file path="changeset_with_contexts.xml"/>
+    </changeFiles>
+</groupFiles>

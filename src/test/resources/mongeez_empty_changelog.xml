@@ -1,6 +1,8 @@
 <!--
 A mongeez setup with a change file that has no changes in the changelog
 -->
-<changeFiles>
-  <file path="empty_changeset.xml"/>
-</changeFiles>
+<groupFiles>
+  <changeFiles>
+    <file path="empty_changeset.xml"/>
+  </changeFiles>
+</groupFiles>
