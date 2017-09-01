@@ -1,0 +1,11 @@
+<databaseChangeLog>
+    <changeSet changeId="ChangeSet-2" author="mlysaght">
+        <script>
+            db.user.insert({ "Name" : "Michael Lysaght"});
+        </script>
+        <script>
+            db.user.insert({ "Name" : "Oleksii Iepishkin"});
+        </script>
+    </changeSet>
+    <include file="xml/changeset1.xml" relativeToChangelogFile="false"/>
+</databaseChangeLog>

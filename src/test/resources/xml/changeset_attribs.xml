@@ -1,0 +1,16 @@
+<databaseChangeLog>
+    <changeSet changeId="ChangeSet-1" author="mlysaght" contexts="dev,prod" failOnError="false" runAlways="true">
+        <script>
+            db.organization.insert({
+                "Organization" : "10Gen",
+                "Location" : "NYC",
+                DateFounded : {"Year" : 2008, "Month" : 01, "day" :01}
+            });
+            db.organization.insert({
+                "Organization" : "SecondMarket",
+                "Location" : "NYC",
+                DateFounded : {"Year" : 2004, "Month" : 05, "day" :04}
+            });
+        </script>
+    </changeSet>
+</databaseChangeLog>

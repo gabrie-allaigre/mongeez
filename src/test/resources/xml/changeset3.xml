@@ -1,0 +1,4 @@
+<databaseChangeLog>
+  <include file="changeset1.xml" relativeToChangelogFile="true"/>
+  <include file="xml/changeset2.xml" relativeToChangelogFile="false"/>
+</databaseChangeLog>

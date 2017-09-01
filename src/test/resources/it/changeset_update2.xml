@@ -1,0 +1,13 @@
+<databaseChangeLog>
+    <include file="changeset_update1.xml" relativeToChangelogFile="true"/>
+
+    <changeSet changeId="ChangeSet-1" author="mlysaght">
+        <script>
+            db.organization.insert({
+                "Organization" : "10Gen",
+                "Location" : "NYC",
+                DateFounded : {"Year" : 2008, "Month" : 01, "day" :01}
+            });
+        </script>
+    </changeSet>
+</databaseChangeLog>

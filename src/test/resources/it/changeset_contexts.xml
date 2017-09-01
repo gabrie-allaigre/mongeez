@@ -1,0 +1,38 @@
+<databaseChangeLog>
+    <changeSet changeId="ChangeSet-1" author="mlysaght">
+        <script>
+            db.organization.insert({
+                "Organization" : "10Gen",
+                "Location" : "NYC",
+                DateFounded : {"Year" : 2008, "Month" : 01, "day" :01}
+            });
+        </script>
+    </changeSet>
+    <changeSet changeId="ChangeSet-2" author="mlysaght" contexts="dev">
+        <script>
+            db.organization.insert({
+            "Organization" : "10Gen",
+            "Location" : "NYC",
+            DateFounded : {"Year" : 2008, "Month" : 01, "day" :01}
+            });
+        </script>
+    </changeSet>
+    <changeSet changeId="ChangeSet-3" author="mlysaght" contexts="prod">
+        <script>
+            db.organization.insert({
+            "Organization" : "10Gen",
+            "Location" : "NYC",
+            DateFounded : {"Year" : 2008, "Month" : 01, "day" :01}
+            });
+        </script>
+    </changeSet>
+    <changeSet changeId="ChangeSet-4" author="mlysaght" contexts="dev,prod">
+        <script>
+            db.organization.insert({
+            "Organization" : "10Gen",
+            "Location" : "NYC",
+            DateFounded : {"Year" : 2008, "Month" : 01, "day" :01}
+            });
+        </script>
+    </changeSet>
+</databaseChangeLog>

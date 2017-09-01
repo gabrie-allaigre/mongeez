@@ -1,0 +1,4 @@
+<databaseChangeLog>
+  <includeAll path="dev" relativeToChangelogFile="true"/>
+  <includeAll path="xml/config/ref" relativeToChangelogFile="false"/>
+</databaseChangeLog>
