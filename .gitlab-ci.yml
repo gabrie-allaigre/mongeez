@@ -9,7 +9,6 @@ variables:
   MONGO_HOST: http://mongo
 before_script:
   - echo $MONGO_HOST
-  - ping mongo
 build_job:
   stage: build
   only:

@@ -3,6 +3,7 @@ package com.talanlabs.mongeez;
 import com.mongodb.MongoClient;
 import com.talanlabs.mongeez.resource.ClassLoaderResourceAccessor;
 import org.assertj.core.api.Assertions;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Optional;
@@ -10,6 +11,11 @@ import java.util.Optional;
 public class MongeezIT {
 
     private static final Optional<String> HOST = Optional.ofNullable(System.getenv("MONGO_HOST"));
+
+    @Before
+    public void before() {
+        System.out.println("HOST "+HOST.orElse("192.168.99.100"));
+    }
 
     @Test
     public void testEmpty() {
