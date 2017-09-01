@@ -1,6 +1,6 @@
 image: maven:3.3.3-jdk-8
 services:
-  mongo: mongo:3.4
+  - mongo:3.4
 stages:
   - build
   - test
