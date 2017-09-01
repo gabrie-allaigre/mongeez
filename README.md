@@ -1,22 +1,15 @@
+It's fork to original mongeez https://github.com/mongeez/mongeez
+
 ### What is mongeez?
 
 mongeez allows you to manage changes of your mongo documents and propagate these changes in sync with your code changes when you perform deployments.
 
-For further information and usage guidelines check out [the wiki](https://github.com/mongeez/mongeez/wiki/How-to-use-mongeez).
-
-###  Join the user group
-http://groups.google.com/group/mongeez-users
-
-### Become a contributor
-http://groups.google.com/group/mongeez-dev
-
-
 ### Add mongeez to your project
 ```xml
 <dependency>
-    <groupId>org.mongeez</groupId>
+    <groupId>com.talanlabs</groupId>
 	<artifactId>mongeez</artifactId>
-	<version>0.9.6</version>
+	<version>1.0.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -24,15 +17,36 @@ Maven repo for releases - http://repo1.maven.org/maven2
 
 Internal versions - https://oss.sonatype.org/content/groups/public
 
+Example file changeset-master.xml
 
-### Or download mongeez from
-repo1.maven.org - http://repo1.maven.org/maven2/org/mongeez/mongeez
+```xml
+<databaseChangeLog>
+  <include fil="changeset0.xml" relativeToChangelogFile="true"/> <!-- add file -->
+  <includeAll path="ref" relativeToChangelogFile="true"/> <!-- Scan all files -->
+  
+  <changeSet changeId="ChangeSet-2" author="mlysaght">
+            <script>
+                db.user.insert({ "Name" : "Admin"});
+            </script>
+    </changeSet>
+  <changeSet changeId="ChangeSet-2" author="mlysaght" contexts="dev">
+          <script>
+              db.user.insert({ "Name" : "Michael Lysaght"});
+          </script>
+          <script>
+              db.user.insert({ "Name" : "Oleksii Iepishkin"});
+          </script>
+  </changeSet>
+  
+</databaseChangeLog>
+```
 
-### Travis Continuous Integration Build Status
-
-Hopefully this thing is routinely green. Travis-CI monitors new code to this project and tests it on a variety of JDKs.
-
-[![Build Status](https://travis-ci.org/mongeez/mongeez.png?branch=master)](https://travis-ci.org/mongeez/mongeez)
+```java
+MongoClient mongoClient = new MongoClient();
+Mongeez mongeez = new Mongeez("changeset-master.xml", new ClassLoaderResourceAccessor(), "test_empty", mongoClient);
+mongeez.dropAll(); // drop all database
+mongeez.update("dev"); // add contexts or null
+```
 
 ## License
 Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
