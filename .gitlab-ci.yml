@@ -6,7 +6,7 @@ stages:
   - test
   - deploy
 variables:
-  - MONGO_HOST: http://mongo
+  MONGO_HOST: http://mongo
 build_job:
   stage: build
   only:
